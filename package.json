@@ -1,0 +1,13 @@
+{
+  "name": "bfc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@zcloak/crypto": "^2.0.0",
+    "JSON": "^1.0.0"
+  },
+  "devDependencies": {
+    "text-encoder": "^0.0.4"
+  }
+}
