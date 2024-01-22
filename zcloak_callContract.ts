@@ -9,7 +9,7 @@ async function main() {
 
 const { execSync } = require('child_process');
 // Generate a new Ed25519 Keypair
-const keypair = new Ed25519Keypair();
+const keypair = Ed25519Keypair.fromSecretKey(new Uint8Array(32));
 // console.log(export_key);
 
 
@@ -39,7 +39,7 @@ const client = new SuiClient({
 });
 
 // Set Package
-const packageObjectId = 'BFCa36d3cdec7eae961a86624543fc7a947d8842b775a2d608d79630d4fb4b05bd55819';
+const packageObjectId = 'BFCaa897749dbc76f383218a9594538f429422ad1f008655413ae23d08f776d7cc5de07';
 const tx = new TransactionBlock();
 
 console.log(`Ready to compose tx ===============`);
@@ -55,22 +55,25 @@ console.log(`Ready to compose tx ===============`);
 // console.log(Array.from(convertHexStringToU8a(apiAnswer.data.signature.substring(2))))
 
 
+// tx.moveCall({
+// 	target: `${packageObjectId}::kyc_verify::set_whitelist`,
+// 	arguments: [
+// 		tx.pure("BFC143c796002eeae9f8ca8941db21a922944953c8f267f320ab2d58857c2e58cfb3879"),
+// 		tx.pure(Array.from(convertHexStringToU8a("02252feE64a45827E4C09Ae2312F09Ce15B0Cb89"))),
+// 	]
+// });
+
+
 tx.moveCall({
-	target: `${packageObjectId}::dapp_module::callz`,
+	target: `${packageObjectId}::kyc_verify::modify_add_whitelist`,
 	arguments: [
-		tx.pure(apiAnswer.data.publicVc.credentialSubject.kyc_status),
-		tx.pure(apiAnswer.data.publicVc.credentialSubject.on_chain_address),
-		tx.pure(Array.from(convertHexStringToU8a(holder))),
-		tx.pure(Array.from(convertHexStringToU8a(apiAnswer.data.publicVc.issuanceDate.toString(16)))),
-		tx.pure(Array.from(expirationDate)),
-		tx.pure(Array.from(convertHexStringToU8a(ctype))),
-		tx.pure(Array.from(base58Decode(attester_sig))),
-		tx.pure(apiAnswer.data.timestamp),
-		tx.pure(Array.from(convertHexStringToU8a(apiAnswer.data.signature.substring(2)))),
-		tx.pure("0x6"),
+		tx.pure("BFC143c796002eeae9f8ca8941db21a922944953c8f267f320ab2d58857c2e58cfb3879"),
 		tx.pure("BFC4ddb2545973a9ba630bf37717b620fdf01a67f62dd52658b200c4a7b80bab705cf46"),
+		tx.pure(Array.from(convertHexStringToU8a("01252feE64a45827E4C09Ae2312F09Ce15B0Cb89"))),
+
 	]
 });
+
 
 
 // // tx.moveCall({
